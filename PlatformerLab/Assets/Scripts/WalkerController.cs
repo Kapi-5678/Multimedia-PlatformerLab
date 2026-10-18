@@ -33,10 +33,20 @@ public class WalkerController : MonoBehaviour
         {
             spriteRenderer.flipX = moveInput > 0f;
         }
+        if (jumpAction.WasPressedThisFrame())
+        {
+            jumpRequested = true;
+        }
     }
     void FixedUpdate()
     {
         rb.linearVelocity = new Vector2(moveInput * moveSpeed, rb.linearVelocity.y);
+        if (jumpRequested && isGrounded)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpVelocity);
+        }
+
+        jumpRequested = false;
     }
 
     [Header("Jump")]
